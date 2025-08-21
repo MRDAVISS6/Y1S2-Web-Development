@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pet Adoption Center</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .pet { border: 2px solid #ccc; margin: 10px; padding: 15px; }
-        .available { border-color: green; }
-        .adopted { border-color: red; opacity: 0.5; }
-    </style>
+    <title>Interactive Quiz</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <h1>Happy Paws Adoption Center</h1>
-    <div id="pet-list"></div>
+    <h1>My Interactive Quiz</h1>
+    <form id="quiz-form">
+      <div class="question">
+        <p>What is the first letter of the alphabet?</p>
+        <div class="option">
+          <input type="radio" name="q1" value="A. B" id="q1a">
+          <label for="q1a">A. B</label>
+        </div>
+        <div class="option">
+          <input type="radio" name="q1" value="B. C" id="q1b">
+          <label for="q1b">B. C</label>
+        </div>
+        <div class="option">
+          <input type="radio" name="q1" value="C. D" id="q1c">
+          <label for="q1c">C. D</label>
+        </div>
+        <div class="option">
+          <input type="radio" name="q1" value="D. A" id="q1d">
+          <label for="q1d">D. A</label>
+        </div>
+      </div>
+      <div class="question">
+          <p>What is the second letter of the alphabet?</p>
+          <div class="option">
+            <input type="radio" name="q2" value="A. B" id="q2a">
+            <label for="q2a">A. B</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" value="B. C" id="q2b">
+            <label for="q2b">B. C</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" value="C. D" id="q2c">
+            <label for="q2c">C. D</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="q2" value="D. A" id="q2d">
+            <label for="q2d">D. A</label>
+          </div>
+      </div>
+      <div class="question">
+          <p>What is the point of this quiz??</p>
+        <div class="option">
+          <input type="radio" name="q3" value="There is no point" id="q3a">
+          <label for="q3a">There is no point</label>
+        </div>
+        <div class="option">
+          <input type="radio" name="q3" value="It's blunt, there is no point" id="q3b">
+          <label for="q3b">It's blunt, there is no point</label>
+        </div>
+        <div class="option">
+          <input type="radio" name="q3" value="If there is a point, I don't know what it is" id="q3c">
+          <label for="q3c">If there is a point, I don't know what it is</label>
+        </div>
+        <div class="option">
+          <input type="radio" name="q3" value="You assume there needs to be a point" id="q3d">
+          <label for="q4d">You assume there needs to be a point</label>
+        </div>
+      </div>
+      <button type="submit" id="submit-btn">Check Answers</button>
+    </form>
+    <div id="results"></div>
     
-    <script>
-        let pets = [
-          { name: "Garfield", type: "cat", age: 6, adopted: false },
-          { name: "Oddie", type: "dog", age: 1, adopted: false },
-          { name: "Marmaduke", type: "dog", age: 8, adopted: false },
-          { name: "Ollie", type: "dog", age: 2, adopted: true },
-          { name: "Puss-in-boots", type: "cat", age: 4, adopted: false }
-        ];
-        
-        function displayPet(pet) {
-          // Create HTML string for one pet
-          // Include: name, type, age, and adoption status
-          // Return the HTML string
-          let cssClass = pet.adopted ? "pet adopted" : "pet available";
-          let html = 
-          `<div class="${cssClass}">
-            Name: ${pet.name}</br>
-            Type: ${pet.type}</br>
-            Age: ${pet.age}</br>
-          </div>`;
-
-          return html;
-        }
-
-        function showAllPets() {
-          // Get the container div
-          // Loop through pets array
-          // Build up HTML string
-          // Set innerHTML of container
-
-          let petList = document.getElementById("pet-list");
-          let html = "";
-          pets.forEach(pet => {
-            html += displayPet(pet);
-          });
-          petList.innerHTML = html;
-        }
-
-        function adoptPet(petName) {
-          // Use a loop to find the pet with matching name
-          // Set their adopted property to true
-          // Call showAllPets() to refresh the display
-          pets.forEach(pet =>{
-            if (pet.name === petName) pet.adopted = true;
-          });
-          showAllPets();
-        }
-
-        // Test your functions
-        showAllPets();
-        adoptPet("Puss-in-boots"); // Replace with one of your pet names
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
