@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokemon</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <h1>Pokemon!</h1>
+    <main>
+        <ul class="list"></ul>
+        <section class="panel">
+          <<<< Select a pokemon to begin
+        </section>
+    </main>
+      
+    <script>
+      async function fetchPokes(){
+        let num = Math.floor(Math.random()*1025);
+        const result = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${num}`);
+        const resultData = await result.json();
+        loopPokes(resultData.results);
+      }
+
+      async function loopPokes(pokes) {
+        for (pokemon of pokes){
+            const poke = document.createElement("li");
+            poke.className = "btn";
+            poke.innerHTML = pokemon.name;
+            poke.url = pokemon.url;
+            document.querySelector(".list").appendChild(poke);
+            poke.addEventListener("click", getMyPokemon);
+        }
+      }
+
+      async function getMyPokemon(e) {
+        const result = await fetch(e.target.url);
+        const pokeData = await result.json();
+        const panel = document.querySelector(".panel");
+        panel.innerHTML = `<h2>${pokeData.name}</h2>
+        <img src="${pokeData.sprites.other["official-artwork"].front_default}" alt="${pokeData.name}">
+        <h2>Abilities</h2>
+        <ul class="abilities"></ul>`;
+        const abilitiesUL = document.querySelector(".abilities");
+        for (ability of pokeData.abilities){
+          const item = document.createElement("li");
+          item.innerText = `${ability.ability.name}`;
+          abilitiesUL.appendChild(item);
+        }
+      }
+
+      fetchPokes();
+    </script>
+</body>
+</html>

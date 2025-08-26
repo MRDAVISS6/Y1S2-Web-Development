@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Pokemon!</h1>
+    <main>
+        <ul class="list">
+            <!-- Pokemon names here -->
+        </ul>
+        <section class="panel">
+            <!-- Selected pokemon here -->
+             <p><< Select a pokemon to display</p>
+        </section>
+    </main>
+    <script>
+        //fetch some pokemon
+        async function fetchPokes()
+        {
+            const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10&offset=24");
+            const pokeData = await res.json();
+            loopPokes(pokeData);
+        }
+        //generate a list of pokes
+        function loopPokes(pokes)
+        {
+            for(pokemon of pokes.results) {
+                const poke = document.createElement("li");
+                poke.className ="btn";
+                poke.innerHTML = pokemon.name;
+                poke.url = pokemon.url; // give my poke div a property to hold the url and set it to the pokemons url
+                document.querySelector(".list").appendChild(poke);
+                poke.addEventListener("click", getMyPokemon);
+            }
+        }
+        async function getMyPokemon(e) {
+            const res =await fetch(e.target.url); // the target is the list item with the click event in the loopPokes function
+            const pokeData = await res.json();
+            const panel = document.querySelector(".panel");
+            panel.innerHTML = `<h2>${pokeData.name}</h2>
+            <img src="${pokeData.sprites.other["official-artwork"].front_default}" alt="${pokeData.name}">
+            <h3>Abilities:</h3>`
+            const abilities = document.createElement("ul");
+            panel.appendChild(abilities);
+            for(ability of pokeData.abilities){
+                const item = document.createElement("li");
+                item.innerHTML= ability.ability.name; //each item in the abilities array has an object called ability
+                abilities.appendChild(item);
+            }
+        }
+        fetchPokes();
+
+            
+        
+
+
+    </script>
+    <style>
+ 
+       body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        main{
+            display:flex;
+            flex-direction: row;
+            gap:2em
+        }
+
+        h1{
+            margin-left:1rem;
+        }
+        h2{
+            text-transform:capitalize;
+        }
+        .list{
+            padding:0;
+        }
+        img{
+            max-width:200px;
+        }
+        .btn{
+            border:1px solid grey;
+            box-shadow: 5px 5px 5px #999;
+            padding: 1em;
+            margin:1em;
+            max-width:120px;
+            list-style:none;
+            cursor:pointer;
+
+        }
+        .btn:hover{
+            background-color: #FFCC00;
+        }
+        .panel{
+            border:1px solid grey;
+            box-shadow: 5px 5px 5px #999;
+            padding: 1em;
+            margin-top:2em;
+            align-self: flex-start;
+        }
+
+    </style>
+</body>
+</html>
