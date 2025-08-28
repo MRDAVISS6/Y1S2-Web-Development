@@ -20,7 +20,48 @@
       </section>
 
       <script>
+        async function populate() {
+          const requestURL =
+            "https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json";
+          const request = new Request(requestURL);
 
+          const response = await fetch(request);
+          const superHeroes = await response.json();
+
+          populateHeader(superHeroes);
+          populateHeroes(superHeroes);
+        }
+
+        function populateHeader(obj) {
+          const header = document.querySelector("header");
+          header.innerHTML = `<h1>${obj.squadName}</h1>
+          <p>Hometown: ${obj.homeTown} // Formed: ${obj.formed}</p>`
+        }
+
+        function populateHeroes(obj) {
+          const section = document.querySelector("section");
+          const heroes = obj.members;
+
+          for (const hero of heroes) {
+            const myArticle = document.createElement("article");
+            myArticle.innerHTML = `<h2>${hero.name}</h2>
+            <p>Secret identity: ${hero.secretIdentity}</p>
+            <p>Age: ${hero.age}</p>
+            <p>Superpowers:</p>`;
+
+            let powersList = `<ul>`;
+
+            for (const power of hero.powers) {
+              powersList += `<li>${power}</li>`;
+            }
+            powersList += `</ul>`;
+            myArticle.innerHTML += powersList;
+
+            section.appendChild(myArticle);
+          }
+        }
+
+        populate();
       </script>
   </body>
 </html>

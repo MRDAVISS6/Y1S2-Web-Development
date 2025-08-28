@@ -9,10 +9,6 @@ body {
   margin: 0 auto;
 }
 
-h1, h2 {
-  font-family: 'Faster One', cursive;
-}
-
 /* header styles */
 
 h1 {
@@ -43,6 +39,6 @@ section ul {
 
 h2 {
   font-size: 2.5rem;
-  letter-spacing: -5px;
+  letter-spacing: -3px;
   margin-bottom: 10px;
 }
