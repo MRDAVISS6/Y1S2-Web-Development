@@ -1,1 +1,1 @@
-# Y1S2-Web-pokeapi
+# Y1S2-Web-superhero-squad
