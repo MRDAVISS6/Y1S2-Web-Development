@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 2</title>
+</head>
+<body>
+    <div class="cards-container">
+        <!-- Your cards will be added here using JavaScript -->
+    </div>
+
+    <script>
+        // Fetch data from this API
+        const apiUrl = "https://reqres.in/api/users?per_page=12";
+        
+        // Your JavaScript here
+        // 1. Fetch the data
+        // 2. Loop through the items and create cards
+        // 3. Add the cards to the container
+
+        const cardsContainer = document.querySelector(".cards-container");
+
+        async function LoadUsers() {
+            let response = await fetch(apiUrl, {headers: {'x-api-key': 'reqres-free-v1'}})
+            let users = await response.json();
+
+            RenderUsers(users);
+        }
+
+        function RenderUsers(users){
+            cardsContainer.innerHTML = ""; //clear cards
+            for(const user of users.data){
+                const card = document.createElement('div');
+                card.className = 'card'
+                card.innerHTML = `
+                <img src="${user.avatar}" alt="${user.id} img">
+                <p>#${user.id}</p>
+                <p>${user.first_name} ${user.last_name}</p>
+                <p>${user.email}</p>`
+
+                cardsContainer.appendChild(card)
+            }
+        }
+
+
+
+
+        LoadUsers();
+        
+    </script>
+
+    <style>
+        /* Your CSS here
+           Requirements:
+           - Cards should be the same size
+           - Use CSS Grid for a 3-column layout
+           - Responsive design: cards should stack on mobile
+        */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            border: 3px solid #333;
+        }
+        .card p {
+            margin: 3px;
+            padding-left: 5px;
+        }
+        @media only screen and (max-width: 600px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+        @media only screen and (min-width: 600px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+    </style>
+</body>
+</html>

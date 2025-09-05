@@ -23,6 +23,19 @@
         }
 
         // Your JavaScript here - populate the card with book data
+        const card = document.getElementById("book-card");
+        card.innerHTML = `<h2>#${book.id} - ${book.title}</h2>
+        <img src="${book.imageUrl}" alt="${book.title} Image">
+        <h3>Author:</h3>
+        <p>${book.author}</p>
+        <h3>Year:</h3>
+        <p>${book.year}</p>
+        <h3>Pages:</h3>
+        <p>${book.pages}</p>
+        <h3>Language:</h3>
+        <p>${book.language}</p>
+        <h3>Genres:</h3>
+        <ul>${book.genres.map(t=> `<li>${t}</li>`).join(' ')}</ul>`
         
     </script>
 
@@ -35,6 +48,30 @@
            - Headings should be uppercase
            - Use flexbox for layout
         */
+        .card {
+            width: 300px;
+            border: 3px solid #333;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+        .card h2 {
+           font-size: 1.5rem;
+        }
+        .card img {
+            padding: 5px;
+        }
+        .card h3, .card h2 {
+            text-transform: uppercase;
+            margin: 0 5px;
+        }
+        .card p {
+            margin: 5px;
+        }
+        .card ul {
+            margin: 5px;
+        }
+
     </style>
 </body>
 </html>
