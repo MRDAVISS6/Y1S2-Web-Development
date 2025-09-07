@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 3</title>
+</head>
+<body>
+    <div class="filter-container">
+        <!-- Add your select element here -->
+         <label for="albumFilter">Filter by Album ID:</label>
+         <select id="albumFilter">
+            <option value="all">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+         </select>
+    </div>
+
+    <div class="cards-container">
+        <!-- Your cards will be added here using JavaScript -->
+    </div>
+
+    <script>
+        // Fetch data from this API
+        const apiUrl = "https://jsonplaceholder.typicode.com/photos?_limit=200";
+        
+        //limit was set to 20 but only gave me a list with albumid 1 so changed to 200
+        //via.placeholder.com links do not seem to exist not sure if that is intended but images cannot be displayed
+
+        // Your JavaScript here
+        // 1. Fetch the data
+        // 2. Create a dropdown with album IDs as options
+        // 3. Add event listener to filter cards when selection changes
+        // 4. Display filtered cards
+        let allAlbums = [];
+        
+       async function LoadAlbums() {
+            const response = await fetch(apiUrl);
+            allAlbums = await response.json();
+
+            RenderAlbums(allAlbums);
+       }
+
+       function RenderAlbums(albums){
+            const cardContainer = document.querySelector(".cards-container");
+            cardContainer.innerHTML = "";
+
+            albums.forEach(album => {
+                const card = document.createElement("div");
+                card.className="card";
+                card.id = `${album.id}`
+                card.innerHTML = `
+                <h3>${album.title}</h3>
+                <img src="${album.thumbnailUrl}" alt="${album.id} thumbnail image">
+                <p>Id: ${album.id}<p>
+                <p>Album ID: ${album.albumId}</p>
+                <a href="${album.url}">View here</a>`;
+                cardContainer.appendChild(card);
+            });
+       }
+
+       document.querySelector(".filter-container").addEventListener("change", (e) => {
+            const selection = e.target.value;
+            if (selection === "all"){
+                RenderAlbums(allAlbums);
+            } else {
+                const filtered = allAlbums.filter( (album) => album.albumId == selection);
+                RenderAlbums(filtered);
+            }        
+       });
+
+       LoadAlbums();
+    </script>
+
+    <style>
+        /* Your CSS here
+           Requirements:
+           - Same card layout as Template 2
+           - Filter container positioned at the top
+           - Maintain 3-column layout for cards
+        */
+        .filter-container {
+            margin: 10px;
+        }
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            border: 3px solid #333;
+        }
+        .card p, .card a {
+            margin: 3px;
+            padding-left: 5px;
+        }
+        @media only screen and (max-width: 600px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+        @media only screen and (min-width: 600px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</body>
+</html>
