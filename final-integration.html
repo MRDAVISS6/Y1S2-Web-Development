@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 3</title>
+</head>
+<body>
+    <div class="filter-container">
+        <!-- Add your select element here -->
+         <form id="search-form">
+            <label for="search-box">Search for movie by Title</label>
+            <input type="text" id="search-box">
+            <input type="submit" value="Search" id="search-btn">
+         </form>
+         <div id="search-error"></div>
+    </div>
+
+    <div class="cards-container">
+        <!-- Your cards will be added here using JavaScript -->
+    </div>
+
+    <script>
+        // Fetch data from this API
+        const apiUrl = "https://api.sampleapis.com/movies/animation";
+
+        // Your JavaScript here
+        // 1. Fetch the data
+        // 2. Create a dropdown with movie IDs as options
+        // 3. Add event listener to filter cards when selection changes
+        // 4. Display filtered cards
+        let allMovies = [];
+        
+       async function LoadMovies() {
+            const response = await fetch(apiUrl);
+            allMovies = await response.json();
+
+            RenderMovies(allMovies);
+       }
+
+       function RenderMovies(movies){
+            const cardContainer = document.querySelector(".cards-container");
+            cardContainer.innerHTML = "";
+
+            movies.forEach(movie => {
+                const card = document.createElement("div");
+                card.className="card";
+                card.id = `${movie.id}`
+                card.innerHTML = `
+                <h3>${movie.title}</h3>
+                <img src="${movie.posterURL}" alt="${movie.title} poster image">
+                <p>Id: ${movie.id}<p>
+                <p>IMBD ID: ${movie.imdbId}</p>`;
+                cardContainer.appendChild(card);
+            });
+       }
+
+       document.getElementById("search-form").addEventListener("submit", (e) => {
+            
+            e.preventDefault();
+            document.getElementById("search-error").innerText = ``;
+
+            const searchBox = document.getElementById("search-box");
+
+            const searchTerm = searchBox.value;
+
+            if (searchTerm == null){
+                RenderMovies(allMovies);
+            } else {
+                const filtered = allMovies.filter( (movie) => movie.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+                if (filtered.length === 0){
+                    document.getElementById("search-error").innerText = `
+                    There were no movies found that matched that search term :(
+                    `;
+                } else RenderMovies(filtered);
+            }
+            
+       });
+
+       LoadMovies();
+    </script>
+
+    <style>
+        /* Your CSS here
+           Requirements:
+           - Same card layout as Template 2
+           - Filter container positioned at the top
+           - Maintain 3-column layout for cards
+        */
+        .filter-container {
+            margin: 10px;
+        }
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            border: 3px solid #333;
+        }
+        .card p, .card a {
+            margin: 3px;
+            padding-left: 5px;
+        }
+        @media only screen and (max-width: 600px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+        @media only screen and (min-width: 600px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .cards-container{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</body>
+</html>
